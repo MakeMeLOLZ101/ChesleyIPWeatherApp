@@ -81,8 +81,11 @@ body {
 }
 
 .temperature {
-    font-size: 4rem;
+    font-size: 6rem;
     text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
 }
 
@@ -105,7 +108,7 @@ body {
     margin-top: auto;
     margin-left: 15rem;
     margin-right: 15rem;
-    padding-top: 10rem;
+    padding-top: 6rem;
     color: black;
     font-size: 1.25rem;
     font-weight: 400;
@@ -119,7 +122,11 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.weather-icon {
-    font-size: 4rem;
+.weather-icon-img {
+    width: 10rem;
     margin: 0.5rem 0;
+}
+
+.sky-icon-img{
+    width: 20rem;
 }

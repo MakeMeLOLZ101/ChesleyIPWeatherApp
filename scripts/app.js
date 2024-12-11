@@ -1,24 +1,24 @@
 import { API_KEY } from './weather.js';
 
         const weatherIcons = {
-            '01d': '☀️',
-            '01n': '🌙',
-            '02d': '⛅',
-            '02n': '☁️',
-            '03d': '☁️',
-            '03n': '☁️',
-            '04d': '☁️',
-            '04n': '☁️',
-            '09d': '🌧️',
-            '09n': '🌧️',
-            '10d': '🌦️',
-            '10n': '🌧️',
-            '11d': '⛈️',
-            '11n': '⛈️',
-            '13d': '🌨️',
-            '13n': '🌨️',
-            '50d': '🌫️',
-            '50n': '🌫️'
+            '01d': './images/SunnyIcon.png',
+            '01n': './images/SunnyIcon.png',
+            '02d': './images/PartlyClearIcon.png',
+            '02n': './images/PartlyClearIcon.png',
+            '03d': './images/PartlyClearIcon.png',
+            '03n': './images/PartlyClearIcon.png',
+            '04d': './images/CloudIcon.png',
+            '04n': './images/CloudIcon.png',
+            '09d': './images/RainyIcon.png',
+            '09n': './images/RainyIcon.png',
+            '10d': './images/RainyIcon.png',
+            '10n': './images/RainyIcon.png',
+            '11d': './images/StormyIcon.png',
+            '11n': './images/StormyIcon.png',
+            '13d': './images/SnowIcon.png',
+            '13n': './images/SnowIcon.png',
+            '50d': './images/FogIcon.png',
+            '50n': './images/FogIcon.png'
         };
 
         function updateTime() {
@@ -73,14 +73,18 @@ import { API_KEY } from './weather.js';
             }
         }
 
-        // Update weather display
+        // Weather display
         function updateWeatherDisplay(data) {
             if (!data) return;
 
             document.querySelector('.city-name').textContent = `${data.name}, ${data.sys.country}`;
             document.querySelector('.current-weather').textContent = data.weather[0].description;
             document.querySelector('.temp-value').textContent = `${Math.round(data.main.temp)}°F`;
-            document.querySelector('.sky-icon').textContent = weatherIcons[data.weather[0].icon] || '☀️';
+            
+            const skyIconElement = document.querySelector('.sky-icon');
+            const iconCode = data.weather[0].icon;
+            const iconPath = weatherIcons[iconCode] || weatherIcons['01d'];
+            skyIconElement.innerHTML = `<img src="${iconPath}" alt="weather icon" class="sky-icon-img">`;
         }
 
         // To Update the forecast display
@@ -98,7 +102,10 @@ import { API_KEY } from './weather.js';
 
                 forecastDays[index].querySelector('.day-name').textContent = dayName;
                 forecastDays[index].querySelector('.date').textContent = dayNumber;
-                forecastDays[index].querySelector('.weather-icon').textContent = weatherIcons[forecast.weather[0].icon] || '☀️';
+                const weatherIconElement = forecastDays[index].querySelector('.weather-icon-img');
+                const iconCode = forecast.weather[0].icon;
+                const iconPath = weatherIcons[iconCode] || weatherIcons['01d'];
+                weatherIconElement.innerHTML = `<img src="${iconPath}" alt="weather icon" class="weather-icon-img">`;
                 }
             });
         }
