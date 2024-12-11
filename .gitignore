@@ -1,1 +1,2 @@
-weather.js
+#any file type that you put into this file will be ignored by git
+./scripts/weather.js

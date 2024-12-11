@@ -1,4 +1,4 @@
-const API_KEY = './weather.js';
+import {API_KEY} from './weather.js';
         const weatherIcons = {
             '01d': '☀️',
             '01n': '🌙',
