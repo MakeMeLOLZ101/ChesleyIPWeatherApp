@@ -166,6 +166,11 @@ function updateWeatherDisplay(data) {
     document.querySelector('.current-weather').textContent = data.weather[0].description;
     document.querySelector('.temp-value').textContent = `${Math.round(data.main.temp)}°F`;
     
+    // Add min/max temperature display
+    const mainTempRange = document.querySelector('.temperature .temp-range');
+    mainTempRange.querySelector('.max-temp').textContent = `${Math.round(data.main.temp_max)}°`;
+    mainTempRange.querySelector('.min-temp').textContent = `${Math.round(data.main.temp_min)}°`;
+    
     const skyIconElement = document.querySelector('.sky-icon');
     const iconCode = data.weather[0].icon;
     const iconPath = weatherIcons[iconCode] || weatherIcons['01d'];
@@ -176,20 +181,52 @@ function updateWeatherDisplay(data) {
 function updateForecastDisplay(data) {
     if (!data) return;
 
-    const dailyForecasts = data.list.filter(item => item.dt_txt.includes('12:00:00'));
+    // Get current date at midnight for comparison
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Group forecast data by day and find min/max temperatures
+    const dailyTemps = {};
+    data.list.forEach(forecast => {
+        const date = new Date(forecast.dt * 1000);
+        date.setHours(0, 0, 0, 0);
+        
+        // Skip if it's the current day
+        if (date.getTime() === currentDate.getTime()) return;
+        
+        const dayKey = date.toISOString().split('T')[0];
+        
+        if (!dailyTemps[dayKey]) {
+            dailyTemps[dayKey] = {
+                min: forecast.main.temp_min,
+                max: forecast.main.temp_max,
+                icon: forecast.weather[0].icon,
+                date: date
+            };
+        } else {
+            dailyTemps[dayKey].min = Math.min(dailyTemps[dayKey].min, forecast.main.temp_min);
+            dailyTemps[dayKey].max = Math.max(dailyTemps[dayKey].max, forecast.main.temp_max);
+        }
+    });
+
     const forecastDays = document.querySelectorAll('.forecast .day');
-    
-    dailyForecasts.slice(0, 5).forEach((forecast, index) => {
+    const sortedDays = Object.values(dailyTemps).sort((a, b) => a.date - b.date);
+
+    sortedDays.slice(0, 5).forEach((forecast, index) => {
         if (forecastDays[index]) {
-            const date = new Date(forecast.dt * 1000);
-            const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-            const dayNumber = date.getDate();
+            const dayName = forecast.date.toLocaleDateString('en-US', { weekday: 'long' });
+            const dayNumber = forecast.date.getDate();
 
             forecastDays[index].querySelector('.day-name').textContent = dayName;
             forecastDays[index].querySelector('.date').textContent = dayNumber;
+            
+            // Update temperature ranges
+            forecastDays[index].querySelector('.max-temp').textContent = `${Math.round(forecast.max)}°`;
+            forecastDays[index].querySelector('.min-temp').textContent = `${Math.round(forecast.min)}°`;
+            
+            // Update weather icon
             const weatherIconElement = forecastDays[index].querySelector('.weather-icon-img');
-            const iconCode = forecast.weather[0].icon;
-            const iconPath = weatherIcons[iconCode] || weatherIcons['01d'];
+            const iconPath = weatherIcons[forecast.icon] || weatherIcons['01d'];
             weatherIconElement.innerHTML = `<img src="${iconPath}" alt="weather icon" class="weather-icon-img">`;
         }
     });
@@ -234,12 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDate();
     setInterval(updateTime, 60000);
     
-    // Should load last viewed city
+    // Load the last viewed city or default to user's location
     const lastCity = JSON.parse(localStorage.getItem('lastViewedCity'));
     if (lastCity) {
         loadCity(lastCity.name);
     } else {
-        // If no last city, will ask for new location
+        // If no last city, try to get user's location
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 try {
@@ -250,16 +287,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         const data = await response.json();
                         loadCity(data.name);
                     } else {
-                        // If that fails, get New York
-                        loadCity('New York');
+                        // If geolocation fails, default to "Worst Place to Live" Stockton
+                        loadCity('Stockton');
                     }
                 } catch (error) {
-                    loadCity('New York');
+                    loadCity('Stockton');
                 }
             },
             () => {
-                // If your denied, you get New York
-                loadCity('New York');
+                // If user denies location access, default to "Worst Place to Live" Stockton
+                loadCity('Stockton');
             }
         );
     }

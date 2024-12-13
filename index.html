@@ -1,71 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
-
 <body>
     <div class="container">
-    <div class="row">
-        <div class="column">
-            <div class="time">12:30pm</div>
-            <div class="date">Monday, 18 August 2018</div>
-
-            <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search for a city...">
-                <div class="error-message"></div>
+        <div class="row">
+            <div class="column">
+                <div class="time">12:30pm</div>
+                <div class="date">Monday, 18 August 2018</div>
+    
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search for a city (city, state, country)...">
+                    <div class="error-message"></div>
+                </div>
             </div>
-        </div>
-        <div class="column column-right">
-            <div>
+            <div class="column column-right">
                 <div>
-                    <div class="current-weather">Current Weather Here</div>
-                    <div class="location">
-                        <img src="./images/StarIcon.png" class="star-icon" alt="Its a star">
-                        <span class="city-name">City Name Here</span>
+                    <div>
+                        <div class="current-weather">Current Weather Here</div>
+                        <div class="location">
+                            <img src="./images/StarIcon.png" class="star-icon" alt="Its a star">
+                            <span class="city-name">City Name Here</span>
+                        </div>
                     </div>
+                    <div class="temperature">
+                        <span class="sky-icon">(Image goes here)</span>
+                        <span class="temp-value">100°</span>
+                        <div class="temp-range temp-range2">
+                            <span class="max-temp"></span>
+                            <span class="min-temp"></span>
+                        </div>
+                    </div>
+                    <button class="favorites-button">
+                        Favorites
+                        <span>▼</span>
+                    </button>
                 </div>
-                <div class="temperature">
-                    <span class="sky-icon"></span>
-                    <span class="temp-value">100°</span>
-                </div>
-                <button class="favorites-button">
-                    Favorites
-                    <span>▼</span>
-                </button>
             </div>
         </div>
     </div>
-</div>
+
     <div class="forecast">
         <div class="day">
             <div class="weather-icon-img">☀️</div>
             <div class="day-name"></div>
             <div class="date"></div>
+            <div class="temp-range">
+                <span class="max-temp"></span>
+                <span class="min-temp"></span>
+            </div>
         </div>
         <div class="day">
             <div class="weather-icon-img">☀️</div>
             <div class="day-name"></div>
             <div class="date"></div>
+            <div class="temp-range">
+                <span class="max-temp"></span>
+                <span class="min-temp"></span>
+            </div>
         </div>
         <div class="day">
             <div class="weather-icon-img">☀️</div>
             <div class="day-name"></div>
             <div class="date"></div>
+            <div class="temp-range">
+                <span class="max-temp"></span>
+                <span class="min-temp"></span>
+            </div>
         </div>
         <div class="day">
             <div class="weather-icon-img">☀️</div>
             <div class="day-name"></div>
             <div class="date"></div>
+            <div class="temp-range">
+                <span class="max-temp"></span>
+                <span class="min-temp"></span>
+            </div>
         </div>
         <div class="day">
             <div class="weather-icon-img">☀️</div>
             <div class="day-name"></div>
             <div class="date"></div>
+            <div class="temp-range">
+                <span class="max-temp"></span>
+                <span class="min-temp"></span>
+            </div>
         </div>
     </div>
 
@@ -78,5 +101,4 @@
 
     <script type="module" src="./scripts/app.js"></script>
 </body>
-
 </html>

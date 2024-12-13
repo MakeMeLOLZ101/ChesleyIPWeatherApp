@@ -194,3 +194,28 @@ star-icon:hover {
     margin-top: 0.5rem;
     font-size: 0.9rem;
 }
+
+.temp-range {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.temp-range2 {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 4rem;
+}
+
+.max-temp {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.min-temp {
+    color: #2e638f;
+    font-weight: bold;
+}
